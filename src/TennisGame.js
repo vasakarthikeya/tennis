@@ -1,8 +1,9 @@
-var TennisGame = function() {
+var TennisGame = function () {
 
     var scoreBoard = {
         player1: "0",
-        player2: "0"
+        player2: "0",
+        result: ""
     };
     var playerOnePoints = 0;
     var playerTwoPoints = 0;
@@ -15,17 +16,37 @@ var TennisGame = function() {
     this.playerOneScored = function () {
         playerOnePoints++;
 
-        scoreBoard.player1 = POINTS_TO_SCORE[playerOnePoints];
+        setScore(pointsToScore(playerOnePoints), "player1");
+
+        decideWinner();
     }
 
-    this.playerTwoScored = function() {
+    this.playerTwoScored = function () {
         playerTwoPoints++;
 
-        scoreBoard.player2 = POINTS_TO_SCORE[playerTwoPoints];
+        setScore(pointsToScore(playerTwoPoints), "player2");
+
+        decideWinner();
     }
 
-    this.getScore = function() {
+    this.getScore = function () {
         return scoreBoard;
+    }
+
+    function decideWinner() {
+        if (playerOnePoints > 3 && playerOnePoints > playerTwoPoints) {
+            scoreBoard.result = "Player1 wins.";
+        }
+    }
+
+    function setScore(score, player) {
+        if (score) {
+            scoreBoard[player] = score;
+        }
+    }
+
+    function pointsToScore(points) {
+        return POINTS_TO_SCORE[points];
     }
 }
 
