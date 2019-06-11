@@ -63,7 +63,11 @@ var TennisGame = function () {
                 setResultAsDeuce();
                 setAdvantagePlayerAsEmpty();
             } else if(advantagePlayer === "player1") {
-                setResultAsPlayerOneAdvantage();
+                if (playerOnePoints === 5) {
+                    setResultAsPlayerOneWin();
+                } else {
+                    setResultAsPlayerOneAdvantage();
+                }
             } else if(advantagePlayer === "player2") {
                 setResultAsPlayerTwoAdvantage();
             }
