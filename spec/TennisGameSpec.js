@@ -70,10 +70,22 @@ describe('TennisGame', function () {
         playerOneScoresPoints(4);
 
         var score = tennisGame.getScore();
-        
+
         expect(score.player1).toEqual("40");
         expect(score.player2).toEqual("0");
         expect(score.result).toEqual("Player1 wins.");
+    });
+
+    it('Should player2 wins the game', function() {
+
+        playerOneScoresPoints(2);
+        playerTwoScoresPoints(4);
+
+        var score = tennisGame.getScore();
+        
+        expect(score.player1).toEqual("30");
+        expect(score.player2).toEqual("40");
+        expect(score.result).toEqual("Player2 wins.");
     });
 
 
