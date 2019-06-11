@@ -54,7 +54,11 @@ var TennisGame = function () {
                 scoreBoard.result = "Player2 wins.";
             }
         } else {
-            if (advantagePlayer === "player1") {
+            if (playerOnePoints === 4 && playerOnePoints === playerTwoPoints) {
+                playerOnePoints--;
+                playerTwoPoints--;
+                scoreBoard.result = "Deuce";
+            } else if (advantagePlayer === "player1") {
                 scoreBoard.result = "Player1 gets advantage";
             } else if (advantagePlayer === "player2") {
                 scoreBoard.result = "Player2 gets advantage";
