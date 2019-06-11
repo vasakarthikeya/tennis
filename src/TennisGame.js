@@ -7,34 +7,37 @@ var TennisGame = function () {
     };
     var playerOnePoints = 0;
     var playerTwoPoints = 0;
+    var DEUCE_POINT = 3;
+    var ADVANTAGE_POINT = 4;
     var POINTS_TO_SCORE = {
         1: "15",
         2: "30",
         3: "40"
     };
+    var RESULTS = {
+        DEUCE: "Deuce",
+        PLAYER_ONE_WINS : "Player1 wins.",
+        PLAYER_TWO_WINS : "Player2 wins.",
+        PLAYER_ONE_ADVANTAGE: "Player1 gets advantage",
+        PLAYER_TWO_ADVANTAGE: "Player2 gets advantage",
+    };
     var deuceGame = false;
     var advantagePlayer;
 
     this.playerOneScored = function () {
-        playerOnePoints++;
+        increasePlayerOnePoints();
 
         setScore(pointsToScore(playerOnePoints), "player1");
-
-        if (isDeuceGame()) {
-            advantagePlayer = "player1";
-        }
+        setAdvantagePlayer("player1");
 
         decideWinner();
     }
 
     this.playerTwoScored = function () {
-        playerTwoPoints++;
+        increasePlayerTwoPoints();
 
         setScore(pointsToScore(playerTwoPoints), "player2");
-
-        if (isDeuceGame()) {
-            advantagePlayer = "player2";
-        }
+        setAdvantagePlayer("player2");
 
         decideWinner();
     }
@@ -44,26 +47,82 @@ var TennisGame = function () {
     }
 
     function decideWinner() {
-        if (!deuceGame) {
+        if (!isDeuceGame()) {
             if (isDeucePoints()) {
-                deuceGame = true;
-                scoreBoard.result = "Deuce";
-            } else if (playerOnePoints > 3 && playerOnePoints > playerTwoPoints) {
-                scoreBoard.result = "Player1 wins.";
-            } else if (playerTwoPoints > 3 && playerTwoPoints > playerOnePoints) {
-                scoreBoard.result = "Player2 wins.";
+
+                setThisGameAsDeuce();
+                setResultAsDeuce();
+            } else if (isPlayerWinGame(playerOnePoints, playerTwoPoints)) {
+                setResultAsPlayerOneWin();
+            } else if (isPlayerWinGame(playerTwoPoints, playerOnePoints)) {
+                setResultAsPlayerTwoWin();
             }
         } else {
-            if (playerOnePoints === 4 && playerOnePoints === playerTwoPoints) {
-                playerOnePoints--;
-                playerTwoPoints--;
-                scoreBoard.result = "Deuce";
-            } else if (advantagePlayer === "player1") {
-                scoreBoard.result = "Player1 gets advantage";
-            } else if (advantagePlayer === "player2") {
-                scoreBoard.result = "Player2 gets advantage";
+            if(isBothPlayersInAdvantage()) {
+                setPointsBackToDeuce();
+                setResultAsDeuce();
+                setAdvantagePlayerAsEmpty();
+            } else if(advantagePlayer === "player1") {
+                setResultAsPlayerOneAdvantage();
+            } else if(advantagePlayer === "player2") {
+                setResultAsPlayerTwoAdvantage();
             }
         }
+    }
+
+    function increasePlayerOnePoints() {
+        playerOnePoints++;
+    }
+    
+    function increasePlayerTwoPoints() {
+        playerTwoPoints++;
+    }
+
+    function isPlayerWinGame(point1, point2) {
+        return point1 > DEUCE_POINT && point1 > point2;
+    }
+
+    function setAdvantagePlayer(player) {
+        if(isDeuceGame()) {
+            advantagePlayer = player;
+        }
+    }
+    
+    function setAdvantagePlayerAsEmpty() {
+        advantagePlayer = "";
+    }
+
+    function setResult(value) {
+        scoreBoard.result = value;
+    }
+    
+    function setResultAsPlayerOneWin() {
+        setResult(RESULTS.PLAYER_ONE_WINS);
+    }
+
+    function setResultAsPlayerTwoWin() {
+        setResult(RESULTS.PLAYER_TWO_WINS);
+    }
+
+    function setResultAsDeuce() {
+        setResult(RESULTS.DEUCE);
+    }
+
+    function setResultAsPlayerOneAdvantage() {
+        setResult(RESULTS.PLAYER_ONE_ADVANTAGE);
+    }
+
+    function setResultAsPlayerTwoAdvantage() {
+        setResult(RESULTS.PLAYER_TWO_ADVANTAGE);
+    }
+
+    function isBothPlayersInAdvantage() {
+        return isPointsAreEqual(ADVANTAGE_POINT);
+    }
+
+    function setPointsBackToDeuce() {
+        playerOnePoints--;
+        playerTwoPoints--;
     }
 
     function isDeuceGame() {
@@ -71,7 +130,15 @@ var TennisGame = function () {
     }
 
     function isDeucePoints() {
-        return (playerOnePoints === 3 && playerOnePoints === playerTwoPoints);
+        return isPointsAreEqual(DEUCE_POINT);
+    }
+
+    function isPointsAreEqual(pointsToCheck) {
+        return (playerOnePoints === pointsToCheck && playerOnePoints === playerTwoPoints);
+    }
+
+    function setThisGameAsDeuce() {
+        deuceGame = true;
     }
 
     function setScore(score, player) {
