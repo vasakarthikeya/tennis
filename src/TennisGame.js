@@ -9,6 +9,7 @@ var TennisGame = function () {
     var playerTwoPoints = 0;
     var DEUCE_POINT = 3;
     var ADVANTAGE_POINT = 4;
+    var POINT_TO_WIN_DEUCE_GAME = 5;
     var POINTS_TO_SCORE = {
         1: "15",
         2: "30",
@@ -63,19 +64,23 @@ var TennisGame = function () {
                 setResultAsDeuce();
                 setAdvantagePlayerAsEmpty();
             } else if (advantagePlayer === "player1") {
-                if (playerOnePoints === 5) {
+                if (isPlayerWinDeuceGame(playerOnePoints)) {
                     setResultAsPlayerOneWin();
                 } else {
                     setResultAsPlayerOneAdvantage();
                 }
             } else if (advantagePlayer === "player2") {
-                if (playerTwoPoints === 5) {
+                if (isPlayerWinDeuceGame(playerTwoPoints)) {
                     setResultAsPlayerTwoWin();
                 } else {
                     setResultAsPlayerTwoAdvantage();
                 }
             }
         }
+    }
+
+    function isPlayerWinDeuceGame(points) {
+        return points === POINT_TO_WIN_DEUCE_GAME;
     }
 
     function increasePlayerOnePoints() {
