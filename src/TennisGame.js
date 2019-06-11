@@ -16,8 +16,8 @@ var TennisGame = function () {
     };
     var RESULTS = {
         DEUCE: "Deuce",
-        PLAYER_ONE_WINS : "Player1 wins.",
-        PLAYER_TWO_WINS : "Player2 wins.",
+        PLAYER_ONE_WINS: "Player1 wins.",
+        PLAYER_TWO_WINS: "Player2 wins.",
         PLAYER_ONE_ADVANTAGE: "Player1 gets advantage",
         PLAYER_TWO_ADVANTAGE: "Player2 gets advantage",
     };
@@ -58,18 +58,22 @@ var TennisGame = function () {
                 setResultAsPlayerTwoWin();
             }
         } else {
-            if(isBothPlayersInAdvantage()) {
+            if (isBothPlayersInAdvantage()) {
                 setPointsBackToDeuce();
                 setResultAsDeuce();
                 setAdvantagePlayerAsEmpty();
-            } else if(advantagePlayer === "player1") {
+            } else if (advantagePlayer === "player1") {
                 if (playerOnePoints === 5) {
                     setResultAsPlayerOneWin();
                 } else {
                     setResultAsPlayerOneAdvantage();
                 }
-            } else if(advantagePlayer === "player2") {
-                setResultAsPlayerTwoAdvantage();
+            } else if (advantagePlayer === "player2") {
+                if (playerTwoPoints === 5) {
+                    setResultAsPlayerTwoWin();
+                } else {
+                    setResultAsPlayerTwoAdvantage();
+                }
             }
         }
     }
@@ -77,7 +81,7 @@ var TennisGame = function () {
     function increasePlayerOnePoints() {
         playerOnePoints++;
     }
-    
+
     function increasePlayerTwoPoints() {
         playerTwoPoints++;
     }
@@ -87,11 +91,11 @@ var TennisGame = function () {
     }
 
     function setAdvantagePlayer(player) {
-        if(isDeuceGame()) {
+        if (isDeuceGame()) {
             advantagePlayer = player;
         }
     }
-    
+
     function setAdvantagePlayerAsEmpty() {
         advantagePlayer = "";
     }
@@ -99,7 +103,7 @@ var TennisGame = function () {
     function setResult(value) {
         scoreBoard.result = value;
     }
-    
+
     function setResultAsPlayerOneWin() {
         setResult(RESULTS.PLAYER_ONE_WINS);
     }
