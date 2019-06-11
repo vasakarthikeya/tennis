@@ -5,6 +5,7 @@ var TennisGame = function() {
         player2: "0"
     };
     var playerOnePoints = 0;
+    var playerTwoPoints = 0;
 
     this.playerOneScored = function () {
         playerOnePoints++;
@@ -17,7 +18,13 @@ var TennisGame = function() {
     }
 
     this.playerTwoScored = function() {
-        scoreBoard.player2 = "15";
+        playerTwoPoints++;
+
+        if (playerTwoPoints === 1) {
+            scoreBoard.player2 = "15";
+        } else if (playerTwoPoints === 2) {
+            scoreBoard.player2 = "30"
+        }
     }
 
     this.getScore = function() {
