@@ -34,4 +34,16 @@ describe('TennisGame', function () {
         expect(score.player1).toEqual("0");
         expect(score.player2).toEqual("15");
     });
+
+    it('Should player1 score first two balls', function() {
+
+        tennisGame.playerOneScored();
+        tennisGame.playerOneScored();
+
+        var score = tennisGame.getScore();
+        
+        expect(score.player1).toEqual("30");
+        expect(score.player2).toEqual("0");
+    });
+
 });
